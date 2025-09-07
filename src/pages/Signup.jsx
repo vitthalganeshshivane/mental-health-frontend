@@ -1,21 +1,45 @@
 import React, { useState } from "react";
+import { Navigate, useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const Signup = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    age: "",
-    password: "",
-  });
+  const [name, setName] = useState(" ");
+  const [email, setEmail] = useState("");
+  const [age, setAge] = useState();
+  const [password, setPassword] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement signup API call here
-    console.log("Signup data:", formData);
+
+    const newUser = {
+      name,
+      email,
+      age,
+      password,
+    };
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/users/register`,
+        newUser
+      );
+
+      if (response.status === 201) {
+        const data = response.data;
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("loginData", JSON.stringify(data));
+        toast.success("Registered successful!");
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+          "User Registration failed. Please try again."
+      );
+    }
   };
 
   return (
@@ -26,8 +50,8 @@ const Signup = () => {
         <input
           name="name"
           placeholder="Name"
-          value={formData.name}
-          onChange={handleChange}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           required
           style={styles.input}
         />
@@ -36,8 +60,8 @@ const Signup = () => {
           name="email"
           type="email"
           placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
           style={styles.input}
         />
@@ -46,8 +70,8 @@ const Signup = () => {
           name="age"
           type="number"
           placeholder="Age"
-          value={formData.age}
-          onChange={handleChange}
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
           required
           style={styles.input}
           min={1}
@@ -57,8 +81,8 @@ const Signup = () => {
           name="password"
           type="password"
           placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
           style={styles.input}
           minLength={6}
@@ -67,6 +91,22 @@ const Signup = () => {
         <button type="submit" style={styles.button}>
           Sign Up
         </button>
+
+        <div style={{ marginTop: 20, textAlign: "center" }}>
+          <p>
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              style={{
+                color: "#1976d2",
+                textDecoration: "none",
+                fontWeight: "bold",
+              }}
+            >
+              Log in here
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );
@@ -77,14 +117,12 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    minHeight: "100vh",
-    backgroundColor: "#e3f2fd", // soft blue background
+    minHeight: "100vh", // soft blue background
     padding: 20,
   },
   form: {
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "#fff",
     padding: 30,
     borderRadius: 10,
     boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
