@@ -1,16 +1,41 @@
 import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement login API call here
-    console.log("Login data:", formData);
+
+    const userData = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/users/login`,
+        userData
+      );
+
+      if (response.status === 200) {
+        const data = response.data;
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("loginData", JSON.stringify(data));
+        toast.success("Login successful!");
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+          "User Registration failed. Please try again."
+      );
+    }
   };
 
   return (
@@ -22,8 +47,8 @@ const Login = () => {
           name="email"
           type="email"
           placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
           style={styles.input}
         />
@@ -32,8 +57,8 @@ const Login = () => {
           name="password"
           type="password"
           placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
           style={styles.input}
           minLength={6}
@@ -42,6 +67,22 @@ const Login = () => {
         <button type="submit" style={styles.button}>
           Login
         </button>
+
+        <div style={{ marginTop: 20, textAlign: "center" }}>
+          <p>
+            Don’t have an account?{" "}
+            <Link
+              to="/signup"
+              style={{
+                color: "#1976d2",
+                textDecoration: "none",
+                fontWeight: "bold",
+              }}
+            >
+              Sign up here
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );
@@ -52,14 +93,12 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    minHeight: "100vh",
-    backgroundColor: "#e3f2fd", // soft blue background
+    minHeight: "100vh", // soft blue background
     padding: 20,
   },
   form: {
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "#fff",
     padding: 30,
     borderRadius: 10,
     boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
