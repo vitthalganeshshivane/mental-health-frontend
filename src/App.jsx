@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import HomeRedirector from "./components/HomeRedirector";
 import SurveyForm from "./components/SurveyForm";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -33,6 +34,14 @@ function App() {
           element={
             <PrivateRoute>
               <SurveyForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/user-profile"
+          element={
+            <PrivateRoute>
+              <Profile />
             </PrivateRoute>
           }
         />
