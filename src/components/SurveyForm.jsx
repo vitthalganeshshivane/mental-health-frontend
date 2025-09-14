@@ -230,12 +230,17 @@ const SurveyForm = () => {
       <div className="flex items-center justify-between bg-black px-20 py-4">
         <div
           className="flex items-center gap-2 cursor-pointer"
-          onClick={() => navigate("/home")}
+          onClick={() => navigate("/dashboard")}
         >
           <img src={MentalHealthLogo} alt="logo" className="w-10 h-10" />
           <p className="text-2xl text-white font-bold">MindCare</p>
         </div>
-        <div className="border-2 border-white rounded-full p-2 cursor-pointer">
+        <div
+          className="border-2 border-white rounded-full p-2 cursor-pointer"
+          onClick={() => {
+            navigate("/user-profile");
+          }}
+        >
           <FaUser size={22} color="white" />
         </div>
       </div>
