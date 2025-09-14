@@ -7,6 +7,8 @@ import { FaUser } from "react-icons/fa";
 import MentalHealthLogo from "../assets/mentalhealthlog.png";
 import Lottie from "lottie-react";
 import AiRobot from "../assets/AiRobot.json";
+import HorizontalBarChart from "./ResultStats";
+import ResultStats from "./ResultStats";
 
 const ResultPage = () => {
   const { state } = useLocation();
@@ -35,6 +37,11 @@ const ResultPage = () => {
     familyHistoryData,
   } = state;
 
+  const transformedScores = surveyScores.map(({ name, value }) => ({
+    name,
+    score: value,
+  }));
+
   return (
     <div className="w-full min-h-screen bg-holi">
       {/* Navbar */}
@@ -43,7 +50,12 @@ const ResultPage = () => {
           <img src={MentalHealthLogo} alt="logo" className="w-10 h-10" />
           <p className="text-2xl text-white font-bold">MindCare</p>
         </div>
-        <div className="border-2 border-white rounded-full p-2 cursor-pointer">
+        <div
+          className="border-2 border-white rounded-full p-2 cursor-pointer"
+          onClick={() => {
+            navigate("/user-profile");
+          }}
+        >
           <FaUser size={22} color="white" />
         </div>
       </div>
@@ -55,26 +67,13 @@ const ResultPage = () => {
           <h2 className="text-2xl font-bold text-center mb-6">Your Results</h2>
 
           <RiskGauge probability={prediction.probability * 100} />
-          <ScoresBarChart data={surveyScores} />
+          <ScoresBarChart data={transformedScores} />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            <DonutChart
-              data={sleepDurationData}
-              dataKey="value"
-              nameKey="name"
-              title="Sleep Duration"
-            />
-            <DonutChart
-              data={dietaryHabitsData}
-              dataKey="value"
-              nameKey="name"
-              title="Dietary Habits"
-            />
-            <DonutChart
-              data={familyHistoryData}
-              dataKey="value"
-              nameKey="name"
-              title="Family History"
+          <div className="mt-6">
+            <ResultStats
+              sleepDurationData={sleepDurationData}
+              dietaryHabitsData={dietaryHabitsData}
+              familyHistoryData={familyHistoryData}
             />
           </div>
 
