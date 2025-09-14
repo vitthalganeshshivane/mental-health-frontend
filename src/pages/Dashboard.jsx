@@ -61,7 +61,12 @@ const Dashboard = () => {
           <img src={MentalHealthLogo} alt="logo" className="w-10 h-10" />
           <p className="text-3xl text-white font-semibold">MindCare</p>
         </div>
-        <div className="border-2 border-white rounded-full py-2 px-3 cursor-pointer">
+        <div
+          className="border-2 border-white rounded-full py-2 px-3 cursor-pointer"
+          onClick={() => {
+            navigate("/user-profile");
+          }}
+        >
           <FaUser size={24} color="white" />
         </div>
       </div>
@@ -131,32 +136,6 @@ const Dashboard = () => {
     //   </button>
     // </div>
   );
-};
-
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    minHeight: "80vh",
-    gap: "20px",
-  },
-  title: {
-    marginBottom: 40,
-    color: "#1976d2",
-  },
-  button: {
-    padding: "15px 30px",
-    fontSize: 18,
-    borderRadius: 8,
-    border: "none",
-    backgroundColor: "#1976d2",
-    color: "#fff",
-    cursor: "pointer",
-    fontWeight: "bold",
-    width: 250,
-  },
 };
 
 export default Dashboard;
