@@ -22,7 +22,7 @@ const ScoresBarChart = ({ data }) => {
         <YAxis domain={[0, 5]} />
         <Tooltip />
         <Legend />
-        <Bar dataKey="score" fill="#1976d2" />
+        <Bar dataKey="score" fill="black" />
       </BarChart>
     </ResponsiveContainer>
   );
