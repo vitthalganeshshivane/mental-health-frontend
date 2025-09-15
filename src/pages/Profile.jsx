@@ -17,6 +17,7 @@ import axios from "axios";
 import SurveyDetailsDialog from "../components/SurveyDetailsDialog";
 import AnalyticsDialog from "../components/AnalyticsDialog";
 import { FaUser } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -96,6 +97,7 @@ function Profile() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("loginData");
+    toast.success("Logout successful!");
     navigate("/login");
   };
 
@@ -173,13 +175,13 @@ function Profile() {
           User Info
         </Typography>
 
-        <Typography sx={{ mb: 1 }}>
+        <Typography sx={{ mb: 1, color: "#cfd8dc" }}>
           Name: <b>{user?.user?.name || "-"}</b>
         </Typography>
-        <Typography sx={{ mb: 1 }}>
+        <Typography sx={{ mb: 1, color: "#cfd8dc" }}>
           Email: <b>{user?.user?.email || "-"}</b>
         </Typography>
-        <Typography sx={{ mb: 1 }}>
+        <Typography sx={{ mb: 1, color: "#cfd8dc" }}>
           Age: <b>{user?.user?.age || "-"}</b>
         </Typography>
       </Paper>
@@ -229,10 +231,18 @@ function Profile() {
                 sx={{ color: "rgba(255,255,255,0.9)" }}
               >
                 <ListItemText
-                  primary={`${item.createdAt?.slice(0, 10) || "-"} | Risk: ${
-                    item.prediction?.risk_level || "-"
-                  }`}
+                  primary={`${
+                    item.createdAt?.slice(0, 10) || "-"
+                  } | Assessment:`}
+                  secondary={
+                    item.assessment
+                      ? item.assessment.length > 80
+                        ? item.assessment.slice(0, 80) + "..."
+                        : item.assessment
+                      : "-"
+                  }
                   primaryTypographyProps={{ fontWeight: "medium" }}
+                  secondaryTypographyProps={{ color: "#cfd8dc" }}
                 />
               </ListItem>
             ))}
