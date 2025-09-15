@@ -13,30 +13,18 @@ function AnalyticsDialog({ open, onClose, data }) {
   if (!data) return null;
 
   // Extract all averages from aggregate stats
+
+  // Update statsList to match new aggregate field names
   const statsList = [
+    { label: "Average Stress", value: data.stats?.avg_stress },
+    { label: "Average Anxiety", value: data.stats?.avg_anxiety },
+    { label: "Average Sleep Quality", value: data.stats?.avg_sleepQuality },
     {
-      label: "Average Academic Pressure",
-      value: data.stats?.avg_academic_pressure,
-    },
-    { label: "Average Work Pressure", value: data.stats?.avg_work_pressure },
-    { label: "Average CGPA", value: data.stats?.avg_cgpa },
-    {
-      label: "Average Study Satisfaction",
-      value: data.stats?.avg_study_satisfaction,
-    },
-    {
-      label: "Average Job Satisfaction",
-      value: data.stats?.avg_job_satisfaction,
-    },
-    {
-      label: "Average Financial Stress",
-      value: data.stats?.avg_financial_stress,
+      label: "Average Emotional Wellbeing",
+      value: data.stats?.avg_emotionalWellBeing,
     },
     { label: "Average Age", value: data.stats?.avg_age },
-    {
-      label: "Average Work/Study Hours",
-      value: data.stats?.avg_work_study_hours,
-    },
+    // add more if needed
   ];
 
   return (
