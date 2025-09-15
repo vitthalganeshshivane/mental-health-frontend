@@ -15,8 +15,8 @@ const Dashboard = () => {
     "Take Care of Your Mind & Body",
   ];
 
-  const [index, setIndex] = useState(0); // which text
-  const [subIndex, setSubIndex] = useState(0); // which character
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
   const [blink, setBlink] = useState(true);
 
