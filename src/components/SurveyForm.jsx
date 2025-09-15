@@ -7,119 +7,210 @@ import { FaUser } from "react-icons/fa";
 import Lottie from "lottie-react";
 import AiRobot from "../assets/AiRobot.json";
 
-const questions = [
-  {
-    key: "gender",
-    label: "What’s your gender?",
-    type: "select",
-    options: ["Male", "Female", "Other"],
-  },
+// Define questions separately for students and employees
+const studentQuestions = [
   {
     key: "age",
-    label: "How old are you?",
+    label: "What is your age?",
     type: "number",
     placeholder: "Enter your age",
   },
   {
-    key: "role",
-    label: "What best describes you?",
-    type: "text",
-    placeholder: "e.g. Student, Employee",
+    key: "educationLevel",
+    label:
+      "Which of the following best describes your current course or study level?",
+    type: "select",
+    options: ["Diploma", "Undergraduate", "Postgraduate", "11th/12th", "Other"],
   },
   {
-    key: "academicPressure",
-    label: "Academic Pressure",
-    type: "slider",
-    min: 1,
-    max: 5,
+    key: "academicWorkload",
+    label:
+      "Are you currently involved in assignments, projects, or homework as part of your studies?",
+    type: "select",
+    options: ["Yes", "No"],
   },
   {
-    key: "workPressure",
-    label: "Work Pressure",
-    type: "slider",
-    min: 1,
-    max: 5,
+    key: "academicStress",
+    label:
+      "How often do you feel overwhelmed by your academic workload and responsibilities?",
+    type: "select",
+    options: ["Never", "Rarely", "Sometimes", "Often", "Always"],
   },
   {
-    key: "cgpa",
-    label: "Your CGPA",
-    type: "number",
-    placeholder: "Enter your CGPA (0-10)",
+    key: "relaxActivities",
+    label:
+      "How often do you engage in activities that help you relax and reduce stress?",
+    type: "select",
+    options: ["Never", "Rarely", "Sometimes", "Often", "Always"],
   },
   {
-    key: "studySatisfaction",
-    label: "Study Satisfaction",
-    type: "slider",
-    min: 1,
-    max: 5,
+    key: "sleepQuality",
+    label:
+      "How would you rate the quality of your sleep during the academic term?",
+    type: "select",
+    options: ["Very Poor", "Poor", "Average", "Good", "Very Good"],
   },
   {
-    key: "jobSatisfaction",
-    label: "Job Satisfaction",
-    type: "slider",
-    min: 1,
-    max: 5,
-  },
-  {
-    key: "sleepDuration",
-    label: "How many hours do you usually sleep?",
+    key: "futureConfidence",
+    label: "How confident are you about your academic and career future?",
     type: "select",
     options: [
-      "Less than 4 hours",
-      "4-6 hours",
-      "6-8 hours",
-      "More than 8 hours",
+      "Not at all confident",
+      "Slightly confident",
+      "Moderately confident",
+      "Very confident",
+      "Extremely confident",
     ],
   },
   {
-    key: "dietaryHabits",
-    label: "How would you rate your dietary habits?",
+    key: "socialSupport",
+    label:
+      "How supported do you feel by your family or friends regarding your mental and emotional well-being?",
     type: "select",
-    options: ["Low", "Moderate", "High"],
+    options: [
+      "Not at all supported",
+      "Slightly supported",
+      "Moderately supported",
+      "Very supported",
+      "Extremely supported",
+    ],
   },
   {
-    key: "workStudyHours",
-    label: "Work/Study Hours per Day",
+    key: "counselingHelp",
+    label:
+      "Have you ever sought help from counseling or mental health services?",
+    type: "select",
+    options: ["Yes", "No"],
+  },
+  {
+    key: "copingStrategies",
+    label:
+      "What activities or strategies do you use to cope with stress? (Select all that apply)",
+    type: "multiselect",
+    options: [
+      "Exercise",
+      "Socializing",
+      "Hobbies",
+      "Meditation",
+      "Other",
+      "None",
+    ],
+  },
+];
+
+const employeeQuestions = [
+  {
+    key: "age",
+    label: "What is your age?",
     type: "number",
-    placeholder: "Enter hours",
+    placeholder: "Enter your age",
   },
   {
-    key: "financialStress",
-    label: "Financial Stress",
-    type: "slider",
-    min: 1,
-    max: 5,
+    key: "jobRole",
+    label: "What best describes your current job role?",
+    type: "text",
+    placeholder: "e.g. Software Developer, Manager, etc.",
   },
   {
-    key: "familyHistory",
-    label: "Family History of Mental Illness?",
+    key: "workloadStress",
+    label: "How often do you feel overwhelmed by your workload?",
+    type: "select",
+    options: ["Never", "Rarely", "Sometimes", "Often", "Always"],
+  },
+  {
+    key: "relaxActivities",
+    label:
+      "How often do you engage in activities that help you relax and reduce stress?",
+    type: "select",
+    options: ["Never", "Rarely", "Sometimes", "Often", "Always"],
+  },
+  {
+    key: "sleepQuality",
+    label:
+      "How would you rate the quality of your sleep during the last month?",
+    type: "select",
+    options: ["Very Poor", "Poor", "Average", "Good", "Very Good"],
+  },
+  {
+    key: "jobSatisfaction",
+    label: "How satisfied are you with your current job?",
+    type: "select",
+    options: [
+      "Very Dissatisfied",
+      "Dissatisfied",
+      "Neutral",
+      "Satisfied",
+      "Very Satisfied",
+    ],
+  },
+  {
+    key: "socialSupport",
+    label:
+      "How supported do you feel by your coworkers and manager regarding your mental health?",
+    type: "select",
+    options: [
+      "Not at all supported",
+      "Slightly supported",
+      "Moderately supported",
+      "Very supported",
+      "Extremely supported",
+    ],
+  },
+  {
+    key: "counselingHelp",
+    label:
+      "Have you ever sought help from counseling or mental health services?",
     type: "select",
     options: ["Yes", "No"],
   },
   {
-    key: "suicidalThoughts",
-    label: "Have you ever had suicidal thoughts?",
-    type: "select",
-    options: ["Yes", "No"],
+    key: "copingStrategies",
+    label:
+      "What activities or strategies do you use to cope with stress? (Select all that apply)",
+    type: "multiselect",
+    options: [
+      "Exercise",
+      "Socializing",
+      "Hobbies",
+      "Meditation",
+      "Other",
+      "None",
+    ],
   },
 ];
 
 const SurveyForm = () => {
+  const [userType, setUserType] = useState("");
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const loginData = JSON.parse(localStorage.getItem("loginData"));
-  const userId = loginData?.user?.id;
-  const currentQuestion = questions[step];
+  const questions =
+    userType === "student"
+      ? studentQuestions
+      : userType === "employee"
+      ? employeeQuestions
+      : [];
 
+  // Handle change for normal inputs and multi-select for coping strategies
   const handleChange = (key, value) => {
-    setFormData({ ...formData, [key]: value });
+    if (key === "copingStrategies" && Array.isArray(value)) {
+      // For multiselects, handle toggle
+      let current = formData[key] || [];
+      if (current.includes(value)) {
+        current = current.filter((v) => v !== value);
+      } else {
+        current.push(value);
+      }
+      setFormData({ ...formData, [key]: current });
+    } else {
+      setFormData({ ...formData, [key]: value });
+    }
   };
 
   const handleNext = () => {
-    if (!formData[currentQuestion.key]) {
+    if (!formData[questions[step].key]) {
       toast.error("Please answer this question before continuing");
       return;
     }
@@ -133,96 +224,80 @@ const SurveyForm = () => {
   const handleSubmit = async () => {
     setLoading(true);
 
-    const surveyData = {
-      gender: formData.gender,
-      age: Number(formData.age),
-      role: formData.role,
-      academic_pressure: Number(formData.academicPressure),
-      work_pressure: Number(formData.workPressure),
-      cgpa: Number(formData.cgpa),
-      study_satisfaction: Number(formData.studySatisfaction),
-      job_satisfaction: Number(formData.jobSatisfaction),
-      sleep_duration: formData.sleepDuration,
-      dietary_habits: formData.dietaryHabits,
-      work_study_hours: Number(formData.workStudyHours),
-      financial_stress: Number(formData.financialStress),
-      family_history: formData.familyHistory,
-      suicidal_thoughts: formData.suicidalThoughts,
-    };
+    let surveyPayload = { userType, ...formData };
+    console.log({ userType, ...formData });
+
+    // For multiselect copingStrategies ensure it sends array or stringified value as needed
+    if (Array.isArray(formData.copingStrategies)) {
+      surveyPayload.copingStrategies = formData.copingStrategies;
+    }
 
     try {
-      const predictResponse = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/predict`,
-        surveyData,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      const prediction = predictResponse.data;
+      const loginData = JSON.parse(localStorage.getItem("loginData"));
+      const userId = loginData?.user?.id;
 
-      const suggestionsResponse = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/suggestions/generate`,
-        {
-          userInputs: surveyData,
-          riskLevel: prediction.risk_level,
-          probability: prediction.probability,
-        },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-
-      const surveyScores = [
-        { name: "Academic Pressure", value: surveyData.academic_pressure },
-        { name: "Work Pressure", value: surveyData.work_pressure },
-        { name: "CGPA", value: surveyData.cgpa },
-        { name: "Study Satisfaction", value: surveyData.study_satisfaction },
-        { name: "Job Satisfaction", value: surveyData.job_satisfaction },
-        { name: "Financial Stress", value: surveyData.financial_stress },
-      ];
-
-      const sleepDurationData = [{ name: surveyData.sleep_duration, value: 1 }];
-      const dietaryHabitsData = [{ name: surveyData.dietary_habits, value: 1 }];
-      const familyHistoryData = [{ name: surveyData.family_history, value: 1 }];
-
-      const savePayload = {
-        userId,
-        survey: surveyData,
-        prediction: {
-          label: prediction.prediction,
-          probability: prediction.probability,
-          risk_level: prediction.risk_level,
-        },
-        suggestions: suggestionsResponse.data.suggestions,
-      };
-
-      await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/save-surveys`,
-        savePayload,
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/suggestions/submit`,
+        { userId, userInputs: surveyPayload },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
 
       toast.success("Survey submitted successfully!");
-
-      // 👉 Navigate to results page with data
-      navigate("/results", {
-        state: {
-          prediction,
-          suggestions: suggestionsResponse.data.suggestions,
-          surveyScores,
-          sleepDurationData,
-          dietaryHabitsData,
-          familyHistoryData,
-        },
-      });
+      toast.success("you can see your Survey history on profile page");
+      navigate("/results", { state: response.data });
     } catch (error) {
       toast.error(error.response?.data?.message || "Submission failed");
     } finally {
       setLoading(false);
     }
   };
+
+  if (!userType) {
+    // First screen to select user type
+    return (
+      <>
+        <div className="flex items-center justify-between bg-black px-20 py-4">
+          <div
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={() => navigate("/dashboard")}
+          >
+            <img src={MentalHealthLogo} alt="logo" className="w-10 h-10" />
+            <p className="text-2xl text-white font-bold">MindCare</p>
+          </div>
+          <div
+            className="border-2 border-white rounded-full p-2 cursor-pointer"
+            onClick={() => {
+              navigate("/user-profile");
+            }}
+          >
+            <FaUser size={22} color="white" />
+          </div>
+        </div>
+
+        <div className="flex justify-center min-h-screen bg-holi px-4 gap-2 items-center">
+          <div className="mt-20 max-w-lg w-full p-8 bg-white rounded-lg shadow-lg text-center">
+            <h2 className="text-2xl font-bold mb-6">Who are you?</h2>
+            <button
+              onClick={() => setUserType("student")}
+              className="w-full mb-4 py-3 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+            >
+              Student
+            </button>
+            <button
+              onClick={() => setUserType("employee")}
+              className="w-full py-3 rounded-lg bg-green-500 text-white hover:bg-green-600"
+            >
+              Employee
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  const currentQuestion = questions[step];
 
   return (
     <>
@@ -246,7 +321,7 @@ const SurveyForm = () => {
       </div>
 
       {/* Survey */}
-      <div className="flex  justify-center min-h-screen bg-holi px-4 gap-2 ">
+      <div className="flex justify-center min-h-screen bg-holi px-4 gap-2 ">
         <div className="mt-20">
           <Lottie animationData={AiRobot} loop={true} className="w-64 h-64" />{" "}
           <p className="text-center text-3xl font-bold text-blue-500 -mt-9 bg-gray-300/50 rounded-full ">
@@ -254,7 +329,7 @@ const SurveyForm = () => {
           </p>
         </div>
 
-        <div className="p-8 max-w-lg w-full h-auto mt-20">
+        <div className="p-8 max-w-lg w-full h-auto mt-20 bg-white rounded-lg shadow-lg">
           {/* Progress Bar */}
           <div className="w-full bg-gray-400 rounded-full h-2 mb-6">
             <div
@@ -268,7 +343,7 @@ const SurveyForm = () => {
             {currentQuestion.label}
           </h2>
 
-          {/* Inputs */}
+          {/* Input Types */}
           {currentQuestion.type === "select" && (
             <div className="flex flex-col gap-3">
               {currentQuestion.options.map((opt) => (
@@ -284,6 +359,27 @@ const SurveyForm = () => {
                   {opt}
                 </button>
               ))}
+            </div>
+          )}
+
+          {currentQuestion.type === "multiselect" && (
+            <div className="flex flex-col gap-3">
+              {currentQuestion.options.map((opt) => {
+                const selected = formData[currentQuestion.key]?.includes(opt);
+                return (
+                  <button
+                    key={opt}
+                    className={`px-4 py-2 rounded-xl border transition-all ${
+                      selected
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-100 hover:bg-gray-200"
+                    }`}
+                    onClick={() => handleChange(currentQuestion.key, opt)}
+                  >
+                    {opt}
+                  </button>
+                );
+              })}
             </div>
           )}
 
@@ -309,25 +405,6 @@ const SurveyForm = () => {
               }
               className="w-full border rounded-lg px-4 py-2"
             />
-          )}
-
-          {currentQuestion.type === "slider" && (
-            <div className="flex flex-col items-center">
-              <input
-                type="range"
-                min={currentQuestion.min}
-                max={currentQuestion.max}
-                value={formData[currentQuestion.key] || currentQuestion.min}
-                onChange={(e) =>
-                  handleChange(currentQuestion.key, e.target.value)
-                }
-                className="w-full accent-blue-500"
-              />
-              <span className="mt-2 font-medium">
-                {formData[currentQuestion.key] || currentQuestion.min} /{" "}
-                {currentQuestion.max}
-              </span>
-            </div>
           )}
 
           {/* Navigation */}
